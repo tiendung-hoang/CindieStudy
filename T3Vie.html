@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz (Vietnamese to English)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Vocabulary Quiz (Vietnamese to English)</h2>
+        <p>Question <span id="question-number">1</span>/<span id="total-questions"></span></p>
+        <h3 id="word"></h3>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            { vi: "cảnh sát", en: "cop" },
+            { vi: "con đập", en: "dam" },
+            { vi: "nhúng", en: "dip" },
+            { vi: "cuộc đảo chính", en: "coup" },
+            { vi: "giáo phái", en: "cult" },
+            { vi: "bình minh", en: "dawn" },
+            { vi: "chứng thư", en: "deed" },
+            { vi: "cho là", en: "deem" },
+            { vi: "thách thức", en: "defy" },
+            { vi: "thủ công", en: "craft" },
+            { vi: "thu thập thông tin", en: "crawl" },
+            { vi: "leo", en: "creep" },
+            { vi: "vương miện", en: "crown" },
+            { vi: "thô", en: "crude" },
+            { vi: "người mình thích", en: "crush" },
+            { vi: "ra mắt", en: "debut" },
+            { vi: "con quỷ", en: "demon" },
+            { vi: "dày đặc", en: "dense" },
+            { vi: "ma quỷ", en: "devil" },
+            { vi: "chiến đấu", en: "combat" },
+            { vi: "ép buộc", en: "compel" },
+            { vi: "tuân theo", en: "comply" },
+            { vi: "trao", en: "confer" },
+            { vi: "đồng", en: "copper" },
+            { vi: "tốn kém", en: "costly" },
+            { vi: "mảnh vụn", en: "debris" },
+            { vi: "khuyết điểm", en: "defect" },
+            { vi: "phủ nhận", en: "denial" },
+            { vi: "miêu tả", en: "depict" },
+            { vi: "triển khai", en: "deploy" },
+            { vi: "phó", en: "deputy" },
+            { vi: "giam", en: "detain" },
+            { vi: "nghĩ ra", en: "devise" },
+            { vi: "cụm", en: "cluster" },
+            { vi: "ven biển", en: "coastal" },
+            { vi: "biên soạn", en: "compile" },
+            { vi: "tính toán", en: "compute" },
+            { vi: "che giấu", en: "conceal" },
+            { vi: "thừa nhận", en: "concede" },
+            { vi: "lên án", en: "condemn" },
+            { vi: "hạn chế", en: "confine" },
+            { vi: "chinh phục", en: "conquer" },
+            { vi: "bằng lòng", en: "consent" },
+            { vi: "tranh luận", en: "contend" },
+            { vi: "nội dung", en: "content" },
+            { vi: "kết án", en: "convict" },
+            { vi: "tham nhũng", en: "corrupt" },
+            { vi: "quầy tính tiền", en: "counter" },
+            { vi: "người sáng tạo", en: "creator" },
+            { vi: "pha lê", en: "crystal" },
+            { vi: "quyền giám hộ", en: "custody" },
+            { vi: "cắt", en: "cutting" },
+            { vi: "hoài nghi", en: "cynical" },
+            { vi: "mặc định", en: "default" },
+            { vi: "thâm hụt", en: "deficit" },
+            { vi: "tỉ trọng", en: "density" },
+            { vi: "tiền gửi", en: "deposit" },
+            { vi: "tước đoạt", en: "deprive" },
+            { vi: "đi xuống", en: "descend" },
+            { vi: "đi xuống", en: "descent" },
+            { vi: "máy tính để bàn", en: "desktop" },
+            { vi: "ra lệnh", en: "dictate" },
+            { vi: "phẩm giá", en: "dignity" },
+            { vi: "vấn đề nan giải", en: "dilemma" },
+            { vi: "vứt bỏ", en: "discard" },
+            { vi: "vứt bỏ", en: "dispose" },
+            { vi: "tranh luận", en: "dispute" },
+            { vi: "làm gián đoạn", en: "disrupt" },
+            { vi: "cocktail", en: "cocktail" },
+            { vi: "trùng hợp", en: "coincide" },
+            { vi: "thuộc địa", en: "colonial" },
+            { vi: "bắt đầu", en: "commence" },
+            { vi: "thương mại", en: "commerce" },
+            { vi: "thụ thai", en: "conceive" },
+            { vi: "đối đầu", en: "confront" },
+            { vi: "bảo tồn", en: "conserve" },
+            { vi: "khinh miệt", en: "contempt" },
+            { vi: "trái ngược", en: "contrary" },
+            { vi: "lịch sự", en: "courtesy" },
+            { vi: "đáng tin cậy", en: "credible" },
+            { vi: "phê bình", en: "critique" },
+            { vi: "gây tổn hại", en: "damaging" },
+            { vi: "quyết định", en: "decisive" },
+            { vi: "đại biểu", en: "delegate" },
+            { vi: "thanh tú", en: "delicate" },
+            { vi: "tố cáo", en: "denounce" },
+            { vi: "chẩn đoán", en: "diagnose" },
+            { vi: "nhà độc tài", en: "dictator" },
+            { vi: "giảm bớt", en: "diminish" },
+            { vi: "nhà ngoại giao", en: "diplomat" },
+            { vi: "tiết lộ", en: "disclose" },
+            { vi: "thay thế", en: "displace" },
+            { vi: "xử lý", en: "disposal" },
+            { vi: "hòa tan", en: "dissolve" },
+            { vi: "liên minh", en: "coalition" },
+            { vi: "nhận thức", en: "cognitive" },
+            { vi: "va chạm", en: "collision" },
+            { vi: "người viết chuyên mục", en: "columnist" },
+            { vi: "hàng hóa", en: "commodity" },
+            { vi: "cộng sản", en: "communist" },
+            { vi: "bạn đồng hành", en: "companion" },
+            { vi: "có thẩm quyền", en: "competent" },
+            { vi: "sự đồng thuận", en: "consensus" },
+            { vi: "đối thủ", en: "contender" },
+            { vi: "hợp tác", en: "cooperate" },
+            { vi: "bản quyền", en: "copyright" },
+            { vi: "tương quan", en: "correlate" },
+            { vi: "vô số", en: "countless" },
+            { vi: "trồng trọt", en: "cultivate" },
+            { vi: "sự tò mò", en: "curiosity" },
+            { vi: "tận tụy", en: "dedicated" },
+            { vi: "phòng thủ", en: "defensive" },
+            { vi: "chỉ định", en: "designate" },
+            { vi: "mong muốn", en: "desirable" },
+            { vi: "phát hiện", en: "detection" },
+            { vi: "giam giữ", en: "detention" },
+            { vi: "tàn phá", en: "devastate" },
+            { vi: "chẩn đoán", en: "diagnosis" },
+            { vi: "kích thước", en: "dimension" },
+            { vi: "thư mục", en: "directory" },
+            { vi: "phóng điện", en: "discharge" },
+            { vi: "diễn ngôn", en: "discourse" },
+            { vi: "sa thải", en: "dismissal" },
+            { vi: "tập thể", en: "collective" },
+            { vi: "bình luận", en: "commentary" },
+            { vi: "so sánh được", en: "comparable" },
+            { vi: "lòng trắc ẩn", en: "compassion" },
+            { vi: "thuyết phục", en: "compelling" },
+            { vi: "đền bù", en: "compensate" },
+            { vi: "năng lực", en: "competence" },
+            { vi: "bổ sung", en: "complement" },
+            { vi: "sự phức tạp", en: "complexity" },
+            { vi: "tuân thủ", en: "compliance" },
+            { vi: "thỏa hiệp", en: "compromise" },
+            { vi: "quan niệm", en: "conception" },
+            { vi: "nhượng bộ", en: "concession" },
+            { vi: "sự xưng tội", en: "confession" },
+            { vi: "lương tâm", en: "conscience" },
+            { vi: "cấu thành", en: "constitute" },
+            { vi: "hạn chế", en: "constraint" },
+            { vi: "sự tranh chấp", en: "contention" },
+            { vi: "nhà thầu", en: "contractor" },
+            { vi: "chuyển đổi", en: "conversion" },
+            { vi: "niềm tin", en: "conviction" },
+            { vi: "điều phối", en: "coordinate" },
+            { vi: "sự sửa chữa", en: "correction" },
+            { vi: "tương ứng", en: "correspond" },
+            { vi: "tham nhũng", en: "corruption" },
+            { vi: "ủy viên hội đồng", en: "councillor" },
+            { vi: "cố vấn", en: "counsellor" },
+            { vi: "sự cống hiến", en: "dedication" },
+            { vi: "sự thiếu hụt", en: "deficiency" },
+            { vi: "phái đoàn", en: "delegation" },
+            { vi: "sự phụ thuộc", en: "dependence" },
+            { vi: "triển khai", en: "deployment" },
+            { vi: "ngoại giao", en: "diplomatic" },
+            { vi: "thảm họa", en: "disastrous" },
+            { vi: "tiết lộ", en: "disclosure" },
+            { vi: "tùy ý", en: "discretion" },
+            { vi: "sự gián đoạn", en: "disruption" },
+            { vi: "cộng tác", en: "collaborate" },
+            { vi: "người bình luận", en: "commentator" },
+            { vi: "thành phần", en: "composition" },
+            { vi: "liên tiếp", en: "consecutive" },
+            { vi: "tính nhất quán", en: "consistency" },
+            { vi: "củng cố", en: "consolidate" },
+            { vi: "suy ngẫm", en: "contemplate" },
+            { vi: "liên tục", en: "continually" },
+            { vi: "người đóng góp", en: "contributor" },
+            { vi: "hợp tác xã", en: "cooperative" },
+            { vi: "điều phối viên", en: "coordinator" },
+            { vi: "sự tương quan", en: "correlation" },
+            { vi: "tư vấn", en: "counselling" },
+            { vi: "đối tác", en: "counterpart" },
+            { vi: "độ tin cậy", en: "credibility" },
+            { vi: "tuyên ngôn", en: "declaration" },
+            { vi: "phá hoại", en: "destructive" },
+            { vi: "xấu đi", en: "deteriorate" },
+            { vi: "sự phân biệt", en: "distinction" },
+            { vi: "ủy viên", en: "commissioner" },
+            { vi: "đền bù", en: "compensation" },
+            { vi: "sự phức tạp", en: "complication" },
+            { vi: "xác nhận", en: "confirmation" },
+            { vi: "chúc mừng", en: "congratulate" },
+            { vi: "hội chúng", en: "congregation" },
+            { vi: "khu vực bầu cử", en: "constituency" },
+            { vi: "cấu tạo", en: "constitution" },
+            { vi: "tư vấn", en: "consultation" },
+            { vi: "phối hợp", en: "coordination" },
+            { vi: "sự hợp tác", en: "collaboration" },
+            { vi: "cấu hình", en: "configuration" },
+            { vi: "sự đối đầu", en: "confrontation" },
+            { vi: "quốc hội", en: "congressional" },
+            { vi: "ý thức", en: "consciousness" },
+            { vi: "mâu thuẫn", en: "contradiction" },
+            { vi: "phóng viên", en: "correspondent" },
+            { vi: "tương ứng", en: "corresponding" },
+            { vi: "phân biệt", en: "differentiate" },
+            { vi: "hiến pháp", en: "constitutional" },
+            { vi: "thư từ", en: "correspondence" },
+            { vi: "phân biệt", en: "discrimination" },
+            { vi: "ra quyết định", en: "decision-making" }
+        ];
+
+        let currentIndex = 0;
+        const totalQuestions = vocabulary.length;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getRandomOptions(correctAnswer) {
+            const allOptions = vocabulary.map(item => item.en);
+            const options = [correctAnswer];
+            while (options.length < 6) {
+                const randomOption = allOptions[Math.floor(Math.random() * allOptions.length)];
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+            return shuffle(options);
+        }
+
+        function displayQuestion() {
+            if (currentIndex >= totalQuestions) {
+                document.querySelector('.quiz-container').innerHTML = '<h2>Congratulations!</h2><p>You have completed the vocabulary quiz!</p>';
+                return;
+            }
+
+            const word = vocabulary[currentIndex].vi;
+            const correctAnswer = vocabulary[currentIndex].en;
+            const options = getRandomOptions(correctAnswer);
+
+            document.getElementById('question-number').textContent = currentIndex + 1;
+            document.getElementById('total-questions').textContent = totalQuestions;
+            document.getElementById('word').textContent = word;
+            document.getElementById('result').textContent = '';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, correctAnswer);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                document.getElementById('result').textContent = 'Correct!';
+                document.getElementById('result').style.color = 'green';
+                currentIndex++;
+                displayQuestion();
+            } else {
+                document.getElementById('result').textContent = 'Incorrect, try again!';
+                document.getElementById('result').style.color = 'red';
+            }
+        }
+
+        document.getElementById('total-questions').textContent = totalQuestions;
+        displayQuestion();
+    </script>
+</body>
+</html>
