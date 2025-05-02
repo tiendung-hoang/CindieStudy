@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz (English to Vietnamese)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Vocabulary Quiz (English to Vietnamese)</h2>
+        <p>Question <span id="question-number">1</span>/<span id="total-questions"></span></p>
+        <h3 id="word"></h3>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            { en: "net", vi: "mạng lưới" },
+            { en: "nod", vi: "gật đầu" },
+            { en: "opt", vi: "chọn" },
+            { en: "pad", vi: "đệm" },
+            { en: "pit", vi: "cái hố" },
+            { en: "pop", vi: "nhạc pop" },
+            { en: "ray", vi: "tia" },
+            { en: "nest", vi: "tổ" },
+            { en: "noon", vi: "buổi trưa" },
+            { en: "odds", vi: "tỷ lệ cược" },
+            { en: "oral", vi: "miệng" },
+            { en: "peak", vi: "đỉnh cao" },
+            { en: "plea", vi: "lời thú tội" },
+            { en: "plug", vi: "cắm" },
+            { en: "pole", vi: "cực" },
+            { en: "poll", vi: "thăm dò ý kiến" },
+            { en: "pond", vi: "ao" },
+            { en: "prey", vi: "con mồi" },
+            { en: "pump", vi: "bơm" },
+            { en: "rage", vi: "cơn thịnh nộ" },
+            { en: "raid", vi: "cuộc đột kích" },
+            { en: "rape", vi: "hiếp dâm" },
+            { en: "rear", vi: "ở phía sau" },
+            { en: "naval", vi: "hải quân" },
+            { en: "niche", vi: "hốc tường" },
+            { en: "noble", vi: "cao quý" },
+            { en: "novel", vi: "cuốn tiểu thuyết" },
+            { en: "patch", vi: "vá" },
+            { en: "plead", vi: "cầu xin" },
+            { en: "probe", vi: "thăm dò" },
+            { en: "pulse", vi: "xung" },
+            { en: "punch", vi: "cú đấm" },
+            { en: "query", vi: "truy vấn" },
+            { en: "quest", vi: "nhiệm vụ" },
+            { en: "quota", vi: "hạn ngạch" },
+            { en: "radar", vi: "rađa" },
+            { en: "rally", vi: "tập hợp" },
+            { en: "ratio", vi: "tỷ lệ" },
+            { en: "realm", vi: "vương quốc" },
+            { en: "rebel", vi: "nổi loạn" },
+            { en: "motive", vi: "động cơ" },
+            { en: "mutual", vi: "qua lại" },
+            { en: "namely", vi: "cụ thể là" },
+            { en: "notify", vi: "thông báo" },
+            { en: "oblige", vi: "bắt buộc" },
+            { en: "obsess", vi: "ám ảnh" },
+            { en: "outing", vi: "chuyến đi chơi" },
+            { en: "outlet", vi: "chỗ thoát" },
+            { en: "overly", vi: "quá mức" },
+            { en: "parish", vi: "giáo xứ" },
+            { en: "pastor", vi: "mục sư" },
+            { en: "patent", vi: "bằng sáng chế" },
+            { en: "patrol", vi: "tuần tra" },
+            { en: "patron", vi: "người bảo trợ" },
+            { en: "pirate", vi: "cướp biển" },
+            { en: "pledge", vi: "cam kết" },
+            { en: "plunge", vi: "lao xuống" },
+            { en: "preach", vi: "rao giảng" },
+            { en: "reform", vi: "cải cách" },
+            { en: "refuge", vi: "nơi trú ẩn" },
+            { en: "regain", vi: "lấy lại" },
+            { en: "regime", vi: "chế độ" },
+            { en: "neglect", vi: "sao nhãng" },
+            { en: "nominee", vi: "người được đề cử" },
+            { en: "notable", vi: "đáng chú ý" },
+            { en: "notably", vi: "đáng chú ý" },
+            { en: "nursery", vi: "vườn ươm" },
+            { en: "optical", vi: "quang học" },
+            { en: "outlook", vi: "triển vọng" },
+            { en: "outrage", vi: "phẫn nộ" },
+            { en: "oversee", vi: "giám sát" },
+            { en: "partial", vi: "một phần" },
+            { en: "passing", vi: "đi qua" },
+            { en: "passive", vi: "thụ động" },
+            { en: "pathway", vi: "con đường" },
+            { en: "peasant", vi: "nông dân" },
+            { en: "persist", vi: "kiên trì" },
+            { en: "pioneer", vi: "người tiên phong" },
+            { en: "portray", vi: "miêu tả" },
+            { en: "premier", vi: "thủ tướng" },
+            { en: "premise", vi: "tiền đề" },
+            { en: "premium", vi: "phần thưởng" },
+            { en: "preside", vi: "chủ trì" },
+            { en: "presume", vi: "đoán chừng" },
+            { en: "prevail", vi: "chiếm ưu thế" },
+            { en: "provoke", vi: "khiêu khích" },
+            { en: "radical", vi: "cấp tiến" },
+            { en: "ranking", vi: "xếp hạng" },
+            { en: "readily", vi: "dễ dàng" },
+            { en: "recount", vi: "kể lại" },
+            { en: "refusal", vi: "từ chối" },
+            { en: "monopoly", vi: "sự độc quyền" },
+            { en: "morality", vi: "đạo đức" },
+            { en: "motorist", vi: "người lái xe ô tô" },
+            { en: "nominate", vi: "đề cử" },
+            { en: "nonsense", vi: "điều vô lý" },
+            { en: "offering", vi: "cúng dường" },
+            { en: "optimism", vi: "sự lạc quan" },
+            { en: "outbreak", vi: "sự bùng phát" },
+            { en: "outsider", vi: "người ngoài cuộc" },
+            { en: "overlook", vi: "bỏ qua" },
+            { en: "overturn", vi: "lật đổ" },
+            { en: "parental", vi: "cha mẹ" },
+            { en: "peculiar", vi: "riêng" },
+            { en: "petition", vi: "đơn kiến nghị" },
+            { en: "pipeline", vi: "đường ống" },
+            { en: "post-war", vi: "sau chiến tranh" },
+            { en: "postpone", vi: "hoãn" },
+            { en: "predator", vi: "kẻ săn mồi" },
+            { en: "proceeds", vi: "tiền thu được" },
+            { en: "proclaim", vi: "tuyên bố" },
+            { en: "profound", vi: "sâu" },
+            { en: "protocol", vi: "giao thức" },
+            { en: "province", vi: "tỉnh" },
+            { en: "rational", vi: "hợp lý" },
+            { en: "reassure", vi: "trấn an" },
+            { en: "municipal", vi: "thành phố" },
+            { en: "notorious", vi: "khét tiếng" },
+            { en: "objection", vi: "phản đối" },
+            { en: "obsession", vi: "nỗi ám ảnh" },
+            { en: "offspring", vi: "con cháu" },
+            { en: "originate", vi: "bắt nguồn" },
+            { en: "overwhelm", vi: "áp đảo" },
+            { en: "parameter", vi: "tham số" },
+            { en: "partially", vi: "một phần" },
+            { en: "personnel", vi: "nhân viên" },
+            { en: "physician", vi: "bác sĩ" },
+            { en: "portfolio", vi: "danh mục đầu tư" },
+            { en: "precedent", vi: "tiền lệ" },
+            { en: "precision", vi: "độ chính xác" },
+            { en: "pregnancy", vi: "mang thai" },
+            { en: "prejudice", vi: "định kiến" },
+            { en: "prescribe", vi: "quy định" },
+            { en: "presently", vi: "hiện tại" },
+            { en: "principal", vi: "hiệu trưởng" },
+            { en: "privilege", vi: "đặc quyền" },
+            { en: "processor", vi: "bộ xử lý" },
+            { en: "prominent", vi: "nổi bật" },
+            { en: "prosecute", vi: "truy tố" },
+            { en: "provision", vi: "sự cung cấp" },
+            { en: "reasoning", vi: "lý luận" },
+            { en: "rebellion", vi: "nổi loạn" },
+            { en: "recipient", vi: "người nhận" },
+            { en: "nationwide", vi: "toàn quốc" },
+            { en: "newsletter", vi: "bản tin" },
+            { en: "nomination", vi: "đề cử" },
+            { en: "non-profit", vi: "phi lợi nhuận" },
+            { en: "occasional", vi: "thỉnh thoảng" },
+            { en: "occurrence", vi: "sự xuất hiện" },
+            { en: "persistent", vi: "kiên trì" },
+            { en: "presidency", vi: "tổng thống" },
+            { en: "presumably", vi: "có lẽ" },
+            { en: "prevalence", vi: "sự phổ biến" },
+            { en: "prevention", vi: "phòng ngừa" },
+            { en: "proceeding", vi: "tiến hành" },
+            { en: "processing", vi: "xử lý" },
+            { en: "productive", vi: "năng suất" },
+            { en: "profitable", vi: "có lợi nhuận" },
+            { en: "projection", vi: "phép chiếu" },
+            { en: "pronounced", vi: "phát âm" },
+            { en: "propaganda", vi: "tuyên truyền" },
+            { en: "prosecutor", vi: "công tố viên" },
+            { en: "prosperity", vi: "sự phồn vinh" },
+            { en: "protective", vi: "bảo vệ" },
+            { en: "provincial", vi: "tỉnh" },
+            { en: "referendum", vi: "trưng cầu dân ý" },
+            { en: "reflection", vi: "sự phản xạ" },
+            { en: "regardless", vi: "bất kể" },
+            { en: "nonetheless", vi: "dù sao đi nữa" },
+            { en: "operational", vi: "hoạt động" },
+            { en: "orientation", vi: "định hướng" },
+            { en: "philosopher", vi: "triết gia" },
+            { en: "predecessor", vi: "người tiền nhiệm" },
+            { en: "preliminary", vi: "sơ bộ" },
+            { en: "prestigious", vi: "uy tín" },
+            { en: "problematic", vi: "có vấn đề" },
+            { en: "proposition", vi: "lời đề nghị" },
+            { en: "prosecution", vi: "truy tố" },
+            { en: "prospective", vi: "triển vọng" },
+            { en: "psychiatric", vi: "tâm thần" },
+            { en: "realization", vi: "hiện thực hóa" },
+            { en: "neighbouring", vi: "láng giềng" },
+            { en: "overwhelming", vi: "áp đảo" },
+            { en: "practitioner", vi: "người hành nghề" },
+            { en: "prescription", vi: "toa thuốc" },
+            { en: "preservation", vi: "sự bảo tồn" },
+            { en: "presidential", vi: "tổng thống" },
+            { en: "productivity", vi: "năng suất" },
+            { en: "parliamentary", vi: "nghị viện" },
+            { en: "philosophical", vi: "triết học" },
+            { en: "predominantly", vi: "chủ yếu" },
+            { en: "privatization", vi: "tư nhân hóa" },
+            { en: "organizational", vi: "tổ chức" },
+            { en: "reconstruction", vi: "tái thiết" }
+        ];
+
+        let currentIndex = 0;
+        const totalQuestions = vocabulary.length;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getRandomOptions(correctAnswer) {
+            const allOptions = vocabulary.map(item => item.vi);
+            const options = [correctAnswer];
+            while (options.length < 6) {
+                const randomOption = allOptions[Math.floor(Math.random() * allOptions.length)];
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+            return shuffle(options);
+        }
+
+        function displayQuestion() {
+            if (currentIndex >= totalQuestions) {
+                document.querySelector('.quiz-container').innerHTML = '<h2>Congratulations!</h2><p>You have completed the vocabulary quiz!</p>';
+                return;
+            }
+
+            const word = vocabulary[currentIndex].en;
+            const correctAnswer = vocabulary[currentIndex].vi;
+            const options = getRandomOptions(correctAnswer);
+
+            document.getElementById('question-number').textContent = currentIndex + 1;
+            document.getElementById('total-questions').textContent = totalQuestions;
+            document.getElementById('word').textContent = word;
+            document.getElementById('result').textContent = '';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, correctAnswer);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                document.getElementById('result').textContent = 'Correct!';
+                document.getElementById('result').style.color = 'green';
+                currentIndex++;
+                displayQuestion();
+            } else {
+                document.getElementById('result').textContent = 'Incorrect, try again!';
+                document.getElementById('result').style.color = 'red';
+            }
+        }
+
+        document.getElementById('total-questions').textContent = totalQuestions;
+        displayQuestion();
+    </script>
+</body>
+</html>
