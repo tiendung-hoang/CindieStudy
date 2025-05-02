@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz (Vietnamese to English)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Vocabulary Quiz (Vietnamese to English)</h2>
+        <p>Question <span id="question-number">1</span>/<span id="total-questions"></span></p>
+        <h3 id="word"></h3>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            { vi: "xé", en: "rip" },
+            { vi: "gậy", en: "rod" },
+            { vi: "nói", en: "say" },
+            { vi: "tội lỗi", en: "sin" },
+            { vi: "gián điệp", en: "spy" },
+            { vi: "kiện", en: "sue" },
+            { vi: "cuộc náo loạn", en: "riot" },
+            { vi: "đá", en: "rock" },
+            { vi: "bao", en: "sack" },
+            { vi: "vì lợi ích", en: "sake" },
+            { vi: "niêm phong", en: "seal" },
+            { vi: "túp lều", en: "shed" },
+            { vi: "thở dài", en: "sigh" },
+            { vi: "nhảy", en: "skip" },
+            { vi: "đập mạnh", en: "slam" },
+            { vi: "cái tát", en: "slap" },
+            { vi: "chỗ", en: "slot" },
+            { vi: "búng tay", en: "snap" },
+            { vi: "ngâm", en: "soak" },
+            { vi: "bay lên", en: "soar" },
+            { vi: "duy nhất", en: "sole" },
+            { vi: "một mình", en: "solo" },
+            { vi: "thư rác", en: "spam" },
+            { vi: "nhịp", en: "span" },
+            { vi: "quay", en: "spin" },
+            { vi: "đâm", en: "stab" },
+            { vi: "thân cây", en: "stem" },
+            { vi: "khuấy động", en: "stir" },
+            { vi: "choáng váng", en: "stun" },
+            { vi: "hút", en: "suck" },
+            { vi: "trị vì", en: "reign" },
+            { vi: "gia hạn", en: "renew" },
+            { vi: "súng trường", en: "rifle" },
+            { vi: "thánh nhân", en: "saint" },
+            { vi: "phạm vi", en: "scope" },
+            { vi: "vít", en: "screw" },
+            { vi: "nắm bắt", en: "seize" },
+            { vi: "tuyệt đối", en: "sheer" },
+            { vi: "bắn", en: "shoot" },
+            { vi: "nhún vai", en: "shrug" },
+            { vi: "gạch chéo", en: "slash" },
+            { vi: "đập vỡ", en: "smash" },
+            { vi: "âm thanh", en: "sound" },
+            { vi: "dự phòng", en: "spare" },
+            { vi: "tia lửa", en: "spark" },
+            { vi: "Đánh vần", en: "spell" },
+            { vi: "xương sống", en: "spine" },
+            { vi: "đội hình", en: "squad" },
+            { vi: "cổ phần", en: "stake" },
+            { vi: "ngay đơ", en: "stark" },
+            { vi: "chỉ đạo", en: "steer" },
+            { vi: "dải", en: "strip" },
+            { vi: "bộ", en: "suite" },
+            { vi: "dâng trào", en: "surge" },
+            { vi: "phương thuốc", en: "remedy" },
+            { vi: "kết xuất", en: "render" },
+            { vi: "cho thuê", en: "rental" },
+            { vi: "cư trú", en: "reside" },
+            { vi: "bản tóm tắt", en: "resume" },
+            { vi: "hồi sinh", en: "revive" },
+            { vi: "nghi thức", en: "ritual" },
+            { vi: "khỏe mạnh", en: "robust" },
+            { vi: "quay", en: "rotate" },
+            { vi: "cầm quyền", en: "ruling" },
+            { vi: "tin đồn", en: "rumour" },
+            { vi: "thiêng liêng", en: "sacred" },
+            { vi: "hiếm khi", en: "seldom" },
+            { vi: "nối tiếp", en: "serial" },
+            { vi: "cài đặt", en: "set-up" },
+            { vi: "co lại", en: "shrink" },
+            { vi: "phác họa", en: "sketch" },
+            { vi: "duy nhất", en: "solely" },
+            { vi: "quả cầu", en: "sphere" },
+            { vi: "vợ chồng", en: "spouse" },
+            { vi: "sự căng thẳng", en: "strain" },
+            { vi: "sợi dây", en: "strand" },
+            { vi: "phấn đấu", en: "strive" },
+            { vi: "tinh tế", en: "subtle" },
+            { vi: "đỉnh cao", en: "summit" },
+            { vi: "tuyệt vời", en: "superb" },
+            { vi: "còn lại", en: "remains" },
+            { vi: "loại bỏ", en: "removal" },
+            { vi: "dư lượng", en: "residue" },
+            { vi: "rút lui", en: "retreat" },
+            { vi: "sự trả thù", en: "revenge" },
+            { vi: "đảo ngược", en: "reverse" },
+            { vi: "sự hồi sinh", en: "revival" },
+            { vi: "thế tục", en: "secular" },
+            { vi: "đoạn", en: "segment" },
+            { vi: "thượng nghị sĩ", en: "senator" },
+            { vi: "đập vỡ", en: "shatter" },
+            { vi: "chế độ nô lệ", en: "slavery" },
+            { vi: "vắt kiệt", en: "squeeze" },
+            { vi: "kho", en: "storage" },
+            { vi: "vấp ngã", en: "stumble" },
+            { vi: "trợ cấp", en: "subsidy" },
+            { vi: "tự tử", en: "suicide" },
+            { vi: "tối cao", en: "supreme" },
+            { vi: "dư thừa", en: "surplus" },
+            { vi: "lời nhắc nhở", en: "reminder" },
+            { vi: "nổi tiếng", en: "renowned" },
+            { vi: "nước cộng hòa", en: "republic" },
+            { vi: "giống", en: "resemble" },
+            { vi: "lấy lại", en: "retrieve" },
+            { vi: "hùng biện", en: "rhetoric" },
+            { vi: "sự xoay vòng", en: "rotation" },
+            { vi: "sự trừng phạt", en: "sanction" },
+            { vi: "sự xem xét kỹ lưỡng", en: "scrutiny" },
+            { vi: "vận chuyển", en: "shipping" },
+            { vi: "mô phỏng", en: "simulate" },
+            { vi: "nằm", en: "situated" },
+            { vi: "mẫu vật", en: "specimen" },
+            { vi: "quang phổ", en: "spectrum" },
+            { vi: "đứng", en: "standing" },
+            { vi: "kích thích", en: "stimulus" },
+            { vi: "nổi bật", en: "striking" },
+            { vi: "ngoại ô", en: "suburban" },
+            { vi: "thượng đẳng", en: "superior" },
+            { vi: "kìm nén", en: "suppress" },
+            { vi: "phẫu thuật", en: "surgical" },
+            { vi: "bộ điều chỉnh", en: "regulator" },
+            { vi: "sự từ chối", en: "rejection" },
+            { vi: "sự liên quan", en: "relevance" },
+            { vi: "miễn cưỡng", en: "reluctant" },
+            { vi: "phần còn lại", en: "remainder" },
+            { vi: "tái tạo", en: "reproduce" },
+            { vi: "nơi cư trú", en: "residence" },
+            { vi: "kiềm chế", en: "restraint" },
+            { vi: "hy sinh", en: "sacrifice" },
+            { vi: "rải rác", en: "scattered" },
+            { vi: "hoài nghi", en: "sceptical" },
+            { vi: "dường như", en: "seemingly" },
+            { vi: "chọn lọc", en: "selective" },
+            { vi: "cảm giác", en: "sensation" },
+            { vi: "tình cảm", en: "sentiment" },
+            { vi: "tình dục", en: "sexuality" },
+            { vi: "xã hội chủ nghĩa", en: "socialist" },
+            { vi: "luật sư", en: "solicitor" },
+            { vi: "cảnh tượng", en: "spectacle" },
+            { vi: "điểm sáng", en: "spotlight" },
+            { vi: "sự ổn định", en: "stability" },
+            { vi: "ổn định", en: "stabilize" },
+            { vi: "chiến lược", en: "strategic" },
+            { vi: "người kế vị", en: "successor" },
+            { vi: "giám sát", en: "supervise" },
+            { vi: "đầu hàng", en: "surrender" },
+            { vi: "quy định", en: "regulatory" },
+            { vi: "theo báo cáo", en: "reportedly" },
+            { vi: "sức chống cự", en: "resistance" },
+            { vi: "tương ứng", en: "respective" },
+            { vi: "sự mặc khải", en: "revelation" },
+            { vi: "sự chia ly", en: "separation" },
+            { vi: "giải quyết", en: "settlement" },
+            { vi: "mô phỏng", en: "simulation" },
+            { vi: "sự đoàn kết", en: "solidarity" },
+            { vi: "khuôn mẫu", en: "stereotype" },
+            { vi: "cấu trúc", en: "structural" },
+            { vi: "trình", en: "submission" },
+            { vi: "người đăng ký", en: "subscriber" },
+            { vi: "thay thế", en: "substitute" },
+            { vi: "sự kế thừa", en: "succession" },
+            { vi: "liên tiếp", en: "successive" },
+            { vi: "người giám sát", en: "supervisor" },
+            { vi: "bổ sung", en: "supplement" },
+            { vi: "hỗ trợ", en: "supportive" },
+            { vi: "được cho là", en: "supposedly" },
+            { vi: "đình chỉ", en: "suspension" },
+            { vi: "độ tin cậy", en: "reliability" },
+            { vi: "thay thế", en: "replacement" },
+            { vi: "khu dân cư", en: "residential" },
+            { vi: "sự từ chức", en: "resignation" },
+            { vi: "phục hồi", en: "restoration" },
+            { vi: "sự nhạy cảm", en: "sensitivity" },
+            { vi: "cổ đông", en: "shareholder" },
+            { vi: "chủ quyền", en: "sovereignty" },
+            { vi: "chuyên", en: "specialized" },
+            { vi: "thống kê", en: "statistical" },
+            { vi: "đáng kể", en: "substantial" },
+            { vi: "giám sát", en: "supervision" },
+            { vi: "sinh sản", en: "reproduction" },
+            { vi: "tương ứng", en: "respectively" },
+            { vi: "đăng ký", en: "subscription" },
+            { vi: "thay thế", en: "substitution" },
+            { vi: "giám sát", en: "surveillance" },
+            { vi: "mang tính cách mạng", en: "revolutionary" },
+            { vi: "đặc điểm kỹ thuật", en: "specification" },
+            { vi: "đáng kể", en: "substantially" },
+            { vi: "phục hồi chức năng", en: "rehabilitation" },
+            { vi: "đại diện", en: "representation" },
+            { vi: "đồng thời", en: "simultaneously" },
+            { vi: "thẳng thắn", en: "straightforward" }
+        ];
+
+        let currentIndex = 0;
+        const totalQuestions = vocabulary.length;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getRandomOptions(correctAnswer) {
+            const allOptions = vocabulary.map(item => item.en);
+            const options = [correctAnswer];
+            while (options.length < 6) {
+                const randomOption = allOptions[Math.floor(Math.random() * allOptions.length)];
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+            return shuffle(options);
+        }
+
+        function displayQuestion() {
+            if (currentIndex >= totalQuestions) {
+                document.querySelector('.quiz-container').innerHTML = '<h2>Congratulations!</h2><p>You have completed the vocabulary quiz!</p>';
+                return;
+            }
+
+            const word = vocabulary[currentIndex].vi;
+            const correctAnswer = vocabulary[currentIndex].en;
+            const options = getRandomOptions(correctAnswer);
+
+            document.getElementById('question-number').textContent = currentIndex + 1;
+            document.getElementById('total-questions').textContent = totalQuestions;
+            document.getElementById('word').textContent = word;
+            document.getElementById('result').textContent = '';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, correctAnswer);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                document.getElementById('result').textContent = 'Correct!';
+                document.getElementById('result').style.color = 'green';
+                currentIndex++;
+                displayQuestion();
+            } else {
+                document.getElementById('result').textContent = 'Incorrect, try again!';
+                document.getElementById('result').style.color = 'red';
+            }
+        }
+
+        document.getElementById('total-questions').textContent = totalQuestions;
+        displayQuestion();
+    </script>
+</body>
+</html>
