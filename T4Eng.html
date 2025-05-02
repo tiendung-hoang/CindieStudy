@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz (English to Vietnamese)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Vocabulary Quiz (English to Vietnamese)</h2>
+        <p>Question <span id="question-number">1</span>/<span id="total-questions"></span></p>
+        <h3 id="word"></h3>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            { en: "dub", vi: "lồng tiếng" },
+            { en: "duo", vi: "cặp đôi" },
+            { en: "ego", vi: "cái tôi" },
+            { en: "fit", vi: "phù hợp" },
+            { en: "gut", vi: "ruột" },
+            { en: "dose", vi: "liều lượng" },
+            { en: "dual", vi: "hai" },
+            { en: "dumb", vi: "câm" },
+            { en: "ease", vi: "xoa dịu" },
+            { en: "echo", vi: "tiếng vang" },
+            { en: "exit", vi: "ra" },
+            { en: "fade", vi: "phai" },
+            { en: "fate", vi: "định mệnh" },
+            { en: "feat", vi: "kỳ công" },
+            { en: "fine", vi: "khỏe" },
+            { en: "flaw", vi: "khiếm khuyết" },
+            { en: "flee", vi: "chạy trốn" },
+            { en: "gaze", vi: "nhìn chằm chằm" },
+            { en: "gear", vi: "bánh răng" },
+            { en: "grid", vi: "lưới" },
+            { en: "grin", vi: "cười toe toét" },
+            { en: "grip", vi: "va li" },
+            { en: "hail", vi: "kêu" },
+            { en: "halt", vi: "dừng lại" },
+            { en: "hint", vi: "gợi ý" },
+            { en: "hook", vi: "cái móc" },
+            { en: "horn", vi: "sừng" },
+            { en: "donor", vi: "nhà tài trợ" },
+            { en: "drain", vi: "làm khô hạn" },
+            { en: "drift", vi: "trôi dạt" },
+            { en: "drown", vi: "chết đuối" },
+            { en: "eager", vi: "háo hức" },
+            { en: "elite", vi: "ưu tú" },
+            { en: "embed", vi: "nhúng" },
+            { en: "enact", vi: "ban hành" },
+            { en: "enrol", vi: "tham gia" },
+            { en: "ensue", vi: "xảy ra sau đó" },
+            { en: "erect", vi: "dựng lên" },
+            { en: "evoke", vi: "gợi lên" },
+            { en: "exert", vi: "gắng sức" },
+            { en: "exile", vi: "lưu đày" },
+            { en: "fatal", vi: "gây tử vong" },
+            { en: "fibre", vi: "chất xơ" },
+            { en: "fleet", vi: "hạm đội" },
+            { en: "flesh", vi: "thịt" },
+            { en: "fluid", vi: "dịch" },
+            { en: "forge", vi: "rèn" },
+            { en: "forth", vi: "ra" },
+            { en: "glory", vi: "vinh quang" },
+            { en: "grace", vi: "duyên dáng" },
+            { en: "grasp", vi: "nắm bắt" },
+            { en: "grave", vi: "phần mộ" },
+            { en: "grief", vi: "đau buồn" },
+            { en: "grind", vi: "xay" },
+            { en: "gross", vi: "tổng" },
+            { en: "guilt", vi: "cảm giác tội lỗi" },
+            { en: "handy", vi: "tiện dụng" },
+            { en: "harsh", vi: "thô ráp" },
+            { en: "haunt", vi: "ám ảnh" },
+            { en: "divert", vi: "chuyển hướng" },
+            { en: "divine", vi: "thần thánh" },
+            { en: "domain", vi: "lãnh địa" },
+            { en: "embark", vi: "tham gia" },
+            { en: "embody", vi: "hiện thân" },
+            { en: "endure", vi: "chịu đựng" },
+            { en: "enrich", vi: "làm giàu" },
+            { en: "entity", vi: "thực thể" },
+            { en: "excess", vi: "thặng dư" },
+            { en: "expire", vi: "hết hạn" },
+            { en: "fierce", vi: "mạnh mẽ" },
+            { en: "filter", vi: "lọc" },
+            { en: "flawed", vi: "thiếu sót" },
+            { en: "foster", vi: "nuôi dưỡng" },
+            { en: "gallon", vi: "gallon" },
+            { en: "glance", vi: "liếc nhìn" },
+            { en: "hatred", vi: "hận thù" },
+            { en: "hazard", vi: "nguy hiểm" },
+            { en: "distort", vi: "bóp méo" },
+            { en: "driving", vi: "lái xe" },
+            { en: "dynamic", vi: "năng động" },
+            { en: "elevate", vi: "nâng" },
+            { en: "embassy", vi: "đại sứ quán" },
+            { en: "empower", vi: "trao quyền" },
+            { en: "endless", vi: "vô tận" },
+            { en: "endorse", vi: "tán thành" },
+            { en: "enforce", vi: "thi hành" },
+            { en: "enquire", vi: "hỏi thăm" },
+            { en: "entitle", vi: "quyền" },
+            { en: "essence", vi: "nước hoa" },
+            { en: "eternal", vi: "vĩnh cửu" },
+            { en: "execute", vi: "thi hành" },
+            { en: "extract", vi: "chiết xuất" },
+            { en: "faction", vi: "phe phái" },
+            { en: "faculty", vi: "giảng viên" },
+            { en: "firearm", vi: "súng cầm tay" },
+            { en: "fixture", vi: "vật cố định" },
+            { en: "footage", vi: "cảnh quay" },
+            { en: "formula", vi: "công thức" },
+            { en: "fragile", vi: "dễ vỡ" },
+            { en: "frankly", vi: "thẳng thắn" },
+            { en: "funeral", vi: "tang lễ" },
+            { en: "generic", vi: "chung chung" },
+            { en: "glimpse", vi: "thoáng qua" },
+            { en: "gravity", vi: "trọng lực" },
+            { en: "halfway", vi: "nửa chừng" },
+            { en: "handful", vi: "một số ít" },
+            { en: "harmony", vi: "hòa hợp" },
+            { en: "harvest", vi: "mùa gặt" },
+            { en: "hopeful", vi: "hy vọng" },
+            { en: "horizon", vi: "chân trời" },
+            { en: "hostage", vi: "con tin" },
+            { en: "hostile", vi: "thù địch" },
+            { en: "distress", vi: "đau khổ" },
+            { en: "doctrine", vi: "học thuyết" },
+            { en: "earnings", vi: "thu nhập" },
+            { en: "educator", vi: "nhà giáo dục" },
+            { en: "eligible", vi: "đạt chuẩn" },
+            { en: "engaging", vi: "hấp dẫn" },
+            { en: "epidemic", vi: "bệnh dịch" },
+            { en: "equality", vi: "bình đẳng" },
+            { en: "equation", vi: "phương trình" },
+            { en: "escalate", vi: "leo thang" },
+            { en: "evacuate", vi: "sơ tán" },
+            { en: "explicit", vi: "rõ ràng" },
+            { en: "fairness", vi: "sự công bằng" },
+            { en: "feminist", vi: "nhà nữ quyền" },
+            { en: "flourish", vi: "phát triển mạnh mẽ" },
+            { en: "gambling", vi: "cờ bạc" },
+            { en: "genocide", vi: "sự diệt chủng" },
+            { en: "glorious", vi: "huy hoàng" },
+            { en: "guidance", vi: "hướng dẫn" },
+            { en: "handling", vi: "xử lý" },
+            { en: "hardware", vi: "phần cứng" },
+            { en: "heighten", vi: "nâng cao" },
+            { en: "heritage", vi: "di sản" },
+            { en: "homeland", vi: "quê hương" },
+            { en: "dominance", vi: "sự thống trị" },
+            { en: "elaborate", vi: "phức tạp" },
+            { en: "electoral", vi: "bầu cử" },
+            { en: "emergence", vi: "sự xuất hiện" },
+            { en: "empirical", vi: "thực nghiệm" },
+            { en: "encompass", vi: "bao gồm" },
+            { en: "endeavour", vi: "nỗ lực" },
+            { en: "exclusion", vi: "loại trừ" },
+            { en: "exclusive", vi: "loại trừ" },
+            { en: "execution", vi: "thi hành án" },
+            { en: "explosive", vi: "chất nổ" },
+            { en: "extremist", vi: "cực đoan" },
+            { en: "foreigner", vi: "người nước ngoài" },
+            { en: "formulate", vi: "xây dựng" },
+            { en: "franchise", vi: "nhượng quyền thương mại" },
+            { en: "gathering", vi: "tụ tập" },
+            { en: "guerrilla", vi: "du kích" },
+            { en: "hierarchy", vi: "thứ bậc" },
+            { en: "disturbing", vi: "làm phiền" },
+            { en: "ecological", vi: "sinh thái" },
+            { en: "efficiency", vi: "hiệu quả" },
+            { en: "engagement", vi: "hôn ước" },
+            { en: "enterprise", vi: "doanh nghiệp" },
+            { en: "enthusiast", vi: "người đam mê" },
+            { en: "exaggerate", vi: "nói quá" },
+            { en: "excellence", vi: "sự xuất sắc" },
+            { en: "explicitly", vi: "rõ ràng" },
+            { en: "facilitate", vi: "tạo điều kiện" },
+            { en: "favourable", vi: "thuận lợi" },
+            { en: "film-maker", vi: "người làm phim" },
+            { en: "frustrated", vi: "bực bội" },
+            { en: "functional", vi: "chức năng" },
+            { en: "governance", vi: "quản trị" },
+            { en: "harassment", vi: "quấy rối" },
+            { en: "distinctive", vi: "đặc biệt" },
+            { en: "encouraging", vi: "đáng khích lệ" },
+            { en: "endorsement", vi: "sự chứng thực" },
+            { en: "enforcement", vi: "thực thi" },
+            { en: "exceptional", vi: "đặc biệt" },
+            { en: "exclusively", vi: "độc quyền" },
+            { en: "expenditure", vi: "chi tiêu" },
+            { en: "flexibility", vi: "tính linh hoạt" },
+            { en: "forthcoming", vi: "sắp tới" },
+            { en: "frustrating", vi: "làm nản lòng" },
+            { en: "frustration", vi: "sự thất vọng" },
+            { en: "fundraising", vi: "gây quỹ" },
+            { en: "evolutionary", vi: "tiến hóa" },
+            { en: "experimental", vi: "thực nghiệm" },
+            { en: "exploitation", vi: "bóc lột" },
+            { en: "high-profile", vi: "cao cấp" },
+            { en: "documentation", vi: "tài liệu" },
+            { en: "effectiveness", vi: "hiệu quả" },
+            { en: "embarrassment", vi: "bối rối" },
+            { en: "encouragement", vi: "sự khích lệ" },
+            { en: "establishment", vi: "thành lập" }
+        ];
+
+        let currentIndex = 0;
+        const totalQuestions = vocabulary.length;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getRandomOptions(correctAnswer) {
+            const allOptions = vocabulary.map(item => item.vi);
+            const options = [correctAnswer];
+            while (options.length < 6) {
+                const randomOption = allOptions[Math.floor(Math.random() * allOptions.length)];
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+            return shuffle(options);
+        }
+
+        function displayQuestion() {
+            if (currentIndex >= totalQuestions) {
+                document.querySelector('.quiz-container').innerHTML = '<h2>Congratulations!</h2><p>You have completed the vocabulary quiz!</p>';
+                return;
+            }
+
+            const word = vocabulary[currentIndex].en;
+            const correctAnswer = vocabulary[currentIndex].vi;
+            const options = getRandomOptions(correctAnswer);
+
+            document.getElementById('question-number').textContent = currentIndex + 1;
+            document.getElementById('total-questions').textContent = totalQuestions;
+            document.getElementById('word').textContent = word;
+            document.getElementById('result').textContent = '';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, correctAnswer);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                document.getElementById('result').textContent = 'Correct!';
+                document.getElementById('result').style.color = 'green';
+                currentIndex++;
+                displayQuestion();
+            } else {
+                document.getElementById('result').textContent = 'Incorrect, try again!';
+                document.getElementById('result').style.color = 'red';
+            }
+        }
+
+        document.getElementById('total-questions').textContent = totalQuestions;
+        displayQuestion();
+    </script>
+</body>
+</html>
