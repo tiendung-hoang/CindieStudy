@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Listening Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none; }
+        .pinyin, .answer { color: #4a5568; font-style: italic; }
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-center mb-6">Chinese Listening Quiz</h1>
+        <form id="quizForm">
+            <!-- Question 1 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('老板，这件衣服多少钱？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 1</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin1')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin1" class="pinyin hidden">Lǎobǎn, zhè jiàn yīfu duōshǎo qián?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q1" value="b"> Ông chủ, tôi muốn mua quần.</label><br>
+                    <label><input type="radio" name="q1" value="c"> Cái áo này đẹp quá!</label><br>
+                    <label><input type="radio" name="q1" value="a"> Ông chủ, cái áo này bao nhiêu tiền?</label><br>
+                    <label><input type="radio" name="q1" value="d"> Tôi muốn trả lại áo này.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer1')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer1" class="answer hidden">Đáp án đúng: Ông chủ, cái áo này bao nhiêu tiền?</p>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('我想买这个包。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 2</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin2')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin2" class="pinyin hidden">Wǒ xiǎng mǎi zhège bāo.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q2" value="c"> Cái túi này bao nhiêu tiền?</label><br>
+                    <label><input type="radio" name="q2" value="b"> Tôi muốn mua cái túi này.</label><br>
+                    <label><input type="radio" name="q2" value="d"> Tôi không muốn mua túi.</label><br>
+                    <label><input type="radio" name="q2" value="a"> Tôi muốn bán cái túi này.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer2')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer2" class="answer hidden">Đáp án đúng: Tôi muốn mua cái túi này.</p>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('给你五十块。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 3</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin3')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin3" class="pinyin hidden">Gěi nǐ wǔshí kuài.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q3" value="b"> Tôi muốn năm mươi tệ.</label><br>
+                    <label><input type="radio" name="q3" value="a"> Đưa bạn năm mươi tệ.</label><br>
+                    <label><input type="radio" name="q3" value="d"> Cái này giá năm mươi tệ.</label><br>
+                    <label><input type="radio" name="q3" value="c"> Trả lại tôi năm mươi tệ.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer3')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer3" class="answer hidden">Đáp án đúng: Đưa bạn năm mươi tệ.</p>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('找你十块。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 4</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin4')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin4" class="pinyin hidden">Zhǎo nǐ shí kuài.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q4" value="c"> Cái này giá mười tệ.</label><br>
+                    <label><input type="radio" name="q4" value="d"> Tôi muốn mua mười cái.</label><br>
+                    <label><input type="radio" name="q4" value="b"> Đưa tôi mười tệ.</label><br>
+                    <label><input type="radio" name="q4" value="a"> Trả lại bạn mười tệ.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer4')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer4" class="answer hidden">Đáp án đúng: Trả lại bạn mười tệ.</p>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('这个便宜一点儿吧。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 5</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin5')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin5" class="pinyin hidden">Zhège piányi yīdiǎnr ba.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q5" value="a"> Cái này đắt quá.</label><br>
+                    <label><input type="radio" name="q5" value="d"> Cái này đẹp quá.</label><br>
+                    <label><input type="radio" name="q5" value="b"> Cái này rẻ hơn chút đi.</label><br>
+                    <label><input type="radio" name="q5" value="c"> Tôi không muốn mua cái này.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer5')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer5" class="answer hidden">Đáp án đúng: Cái này rẻ hơn chút đi.</p>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('这件衣服二十五块。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 6</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin6')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin6" class="pinyin hidden">Zhè jiàn yīfu èrshíwǔ kuài.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q6" value="d"> Trả lại tôi hai mươi lăm tệ.</label><br>
+                    <label><input type="radio" name="q6" value="b"> Cái áo này năm mươi tệ.</label><br>
+                    <label><input type="radio" name="q6" value="c"> Tôi muốn mua hai mươi lăm cái áo.</label><br>
+                    <label><input type="radio" name="q6" value="a"> Cái áo này hai mươi lăm tệ.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer6')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer6" class="answer hidden">Đáp án đúng: Cái áo này hai mươi lăm tệ.</p>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('老板，给我这个吧。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 7</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin7')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin7" class="pinyin hidden">Lǎobǎn, gěi wǒ zhège ba.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q7" value="c"> Cái này bao nhiêu tiền?</label><br>
+                    <label><input type="radio" name="q7" value="a"> Ông chủ, đưa tôi cái này nhé.</label><br>
+                    <label><input type="radio" name="q7" value="d"> Trả lại tôi tiền đi.</label><br>
+                    <label><input type="radio" name="q7" value="b"> Ông chủ, tôi không muốn cái này.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer7')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer7" class="answer hidden">Đáp án đúng: Ông chủ, đưa tôi cái này nhé.</p>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('这本书多少钱？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 8</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin8')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin8" class="pinyin hidden">Zhè běn shū duōshǎo qián?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q8" value="d"> Tôi không thích quyển sách này.</label><br>
+                    <label><input type="radio" name="q8" value="b"> Tôi muốn bán quyển sách này.</label><br>
+                    <label><input type="radio" name="q8" value="a"> Quyển sách này bao nhiêu tiền?</label><br>
+                    <label><input type="radio" name="q8" value="c"> Quyển sách này đẹp quá.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer8')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer8" class="answer hidden">Đáp án đúng: Quyển sách này bao nhiêu tiền?</p>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('给你一百块。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 9</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin9')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin9" class="pinyin hidden">Gěi nǐ yībǎi kuài.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q9" value="c"> Cái này giá một trăm tệ.</label><br>
+                    <label><input type="radio" name="q9" value="d"> Tôi muốn mua một trăm cái.</label><br>
+                    <label><input type="radio" name="q9" value="b"> Trả lại tôi một trăm tệ.</label><br>
+                    <label><input type="radio" name="q9" value="a"> Đưa bạn một trăm tệ.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer9')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer9" class="answer hidden">Đáp án đúng: Đưa bạn một trăm tệ.</p>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('找你三十块。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 10</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin10')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin10" class="pinyin hidden">Zhǎo nǐ sānshí kuài.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q10" value="b"> Đưa tôi ba mươi tệ.</label><br>
+                    <label><input type="radio" name="q10" value="a"> Trả lại bạn ba mươi tệ.</label><br>
+                    <label><input type="radio" name="q10" value="d"> Tôi muốn mua ba mươi cái.</label><br>
+                    <label><input type="radio" name="q10" value="c"> Cái này giá ba mươi tệ.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer10')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer10" class="answer hidden">Đáp án đúng: Trả lại bạn ba mươi tệ.</p>
+                </div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('他十点起床。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 11</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin11')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin11" class="pinyin hidden">Tā shí diǎn qǐchuáng.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q11" value="c"> Anh ấy đi làm lúc mười giờ.</label><br>
+                    <label><input type="radio" name="q11" value="b"> Anh ấy ngủ lúc mười giờ.</label><br>
+                    <label><input type="radio" name="q11" value="a"> Anh ấy dậy lúc mười giờ.</label><br>
+                    <label><input type="radio" name="q11" value="d"> Anh ấy ăn sáng lúc mười giờ.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer11')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer11" class="answer hidden">Đáp án đúng: Anh ấy dậy lúc mười giờ.</p>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('今天是星期一。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 12</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin12')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin12" class="pinyin hidden">Jīntiān shì xīngqīyī.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q12" value="b"> Hôm nay là thứ Ba.</label><br>
+                    <label><input type="radio" name="q12" value="c"> Hôm nay là Chủ Nhật.</label><br>
+                    <label><input type="radio" name="q12" value="d"> Hôm nay là thứ Sáu.</label><br>
+                    <label><input type="radio" name="q12" value="a"> Hôm nay là thứ Hai.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer12')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer12" class="answer hidden">Đáp án đúng: Hôm nay là thứ Hai.</p>
+                </div>
+            </div>
+
+            <!-- Question 13 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('昨天我买了书。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 13</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin13')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin13" class="pinyin hidden">Zuótiān wǒ mǎile shū.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q13" value="b"> Hôm nay tôi mua sách.</label><br>
+                    <label><input type="radio" name="q13" value="a"> Hôm qua tôi mua sách.</label><br>
+                    <label><input type="radio" name="q13" value="d"> Tôi không mua sách.</label><br>
+                    <label><input type="radio" name="q13" value="c"> Ngày mai tôi sẽ mua sách.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer13')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer13" class="answer hidden">Đáp án đúng: Hôm qua tôi mua sách.</p>
+                </div>
+            </div>
+
+            <!-- Question 14 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('明天你做什么？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 14</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin14')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin14" class="pinyin hidden">Míngtiān nǐ zuò shénme?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q14" value="c"> Hôm qua bạn đã làm gì?</label><br>
+                    <label><input type="radio" name="q14" value="d"> Bạn có muốn làm gì không?</label><br>
+                    <label><input type="radio" name="q14" value="a"> Ngày mai bạn làm gì?</label><br>
+                    <label><input type="radio" name="q14" value="b"> Hôm nay bạn làm gì?</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer14')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer14" class="answer hidden">Đáp án đúng: Ngày mai bạn làm gì?</p>
+                </div>
+            </div>
+
+            <!-- Question 15 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('现在是八点。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 15</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin15')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin15" class="pinyin hidden">Xiànzài shì bā diǎn.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q15" value="b"> Bây giờ là mười giờ.</label><br>
+                    <label><input type="radio" name="q15" value="a"> Bây giờ là tám giờ.</label><br>
+                    <label><input type="radio" name="q15" value="d"> Bây giờ là mười hai giờ.</label><br>
+                    <label><input type="radio" name="q15" value="c"> Bây giờ là sáu giờ.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer15')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer15" class="answer hidden">Đáp án đúng: Bây giờ là tám giờ.</p>
+                </div>
+            </div>
+
+            <!-- Question 16 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('每天下午我工作。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 16</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin16')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin16" class="pinyin hidden">Měi tiān xiàwǔ wǒ gōngzuò.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q16" value="d"> Tôi không làm việc mỗi ngày.</label><br>
+                    <label><input type="radio" name="q16" value="b"> Mỗi buổi sáng tôi làm việc.</label><br>
+                    <label><input type="radio" name="q16" value="a"> Mỗi buổi chiều tôi làm việc.</label><br>
+                    <label><input type="radio" name="q16" value="c"> Mỗi buổi tối tôi làm việc.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer16')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer16" class="answer hidden">Đáp án đúng: Mỗi buổi chiều tôi làm việc.</p>
+                </div>
+            </div>
+
+            <!-- Question 17 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('你几点起床？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 17</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin17')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin17" class="pinyin hidden">Nǐ jǐ diǎn qǐchuáng?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q17" value="b"> Bạn đi ngủ lúc mấy giờ?</label><br>
+                    <label><input type="radio" name="q17" value="a"> Bạn dậy lúc mấy giờ?</label><br>
+                    <label><input type="radio" name="q17" value="c"> Bạn đi làm lúc mấy giờ?</label><br>
+                    <label><input type="radio" name="q17" value="d"> Bạn ăn sáng lúc mấy giờ?</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer17')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer17" class="answer hidden">Đáp án đúng: Bạn dậy lúc mấy giờ?</p>
+                </div>
+            </div>
+
+            <!-- Question 18 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('今天晚上我去看电影。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 18</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin18')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin18" class="pinyin hidden">Jīntiān wǎnshàng wǒ qù kàn diànyǐng.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q18" value="c"> Ngày mai tôi đi xem phim.</label><br>
+                    <label><input type="radio" name="q18" value="d"> Tôi không thích xem phim.</label><br>
+                    <label><input type="radio" name="q18" value="b"> Tối qua tôi đi xem phim.</label><br>
+                    <label><input type="radio" name="q18" value="a"> Tối nay tôi đi xem phim.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer18')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer18" class="answer hidden">Đáp án đúng: Tối nay tôi đi xem phim.</p>
+                </div>
+            </div>
+
+            <!-- Question 19 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('他在桌子上写字。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 19</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin19')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin19" class="pinyin hidden">Tā zài zhuōzi shàng xiězì.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q19" value="b"> Anh ấy đọc sách trên bàn.</label><br>
+                    <label><input type="radio" name="q19" value="d"> Anh ấy ngủ trên bàn.</label><br>
+                    <label><input type="radio" name="q19" value="a"> Anh ấy viết chữ trên bàn.</label><br>
+                    <label><input type="radio" name="q19" value="c"> Anh ấy ăn cơm trên bàn.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer19')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer19" class="answer hidden">Đáp án đúng: Anh ấy viết chữ trên bàn.</p>
+                </div>
+            </div>
+
+            <!-- Question 20 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('明天是星期三。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 20</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin20')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin20" class="pinyin hidden">Míngtiān shì xīngqīsān.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q20" value="b"> Ngày mai là thứ Ba.</label><br>
+                    <label><input type="radio" name="q20" value="a"> Ngày mai là thứ Tư.</label><br>
+                    <label><input type="radio" name="q20" value="d"> Ngày mai là Chủ Nhật.</label><br>
+                    <label><input type="radio" name="q20" value="c"> Ngày mai là thứ Năm.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer20')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer20" class="answer hidden">Đáp án đúng: Ngày mai là thứ Tư.</p>
+                </div>
+            </div>
+
+            <!-- Question 21 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('我要买手机。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 21</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin21')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin21" class="pinyin hidden">Wǒ yào mǎi shǒujī.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q21" value="c"> Điện thoại này bao nhiêu tiền?</label><br>
+                    <label><input type="radio" name="q21" value="d"> Tôi không muốn mua điện thoại.</label><br>
+                    <label><input type="radio" name="q21" value="a"> Tôi muốn mua điện thoại.</label><br>
+                    <label><input type="radio" name="q21" value="b"> Tôi muốn bán điện thoại.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer21')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer21" class="answer hidden">Đáp án đúng: Tôi muốn mua điện thoại.</p>
+                </div>
+            </div>
+
+            <!-- Question 22 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('这个可以吗？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 22</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin22')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin22" class="pinyin hidden">Zhège kěyǐ ma?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q22" value="b"> Cái này bao nhiêu tiền?</label><br>
+                    <label><input type="radio" name="q22" value="a"> Cái này được không?</label><br>
+                    <label><input type="radio" name="q22" value="d"> Tôi không muốn cái này.</label><br>
+                    <label><input type="radio" name="q22" value="c"> Cái này đẹp quá.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer22')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer22" class="answer hidden">Đáp án đúng: Cái này được không?</p>
+                </div>
+            </div>
+
+            <!-- Question 23 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('你的手机在哪里？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 23</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin23')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin23" class="pinyin hidden">Nǐ de shǒujī zài nǎlǐ?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q23" value="d"> Tôi muốn mua điện thoại của bạn.</label><br>
+                    <label><input type="radio" name="q23" value="c"> Điện thoại của bạn đẹp quá.</label><br>
+                    <label><input type="radio" name="q23" value="a"> Điện thoại của bạn ở đâu?</label><br>
+                    <label><input type="radio" name="q23" value="b"> Điện thoại của bạn bao nhiêu tiền?</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer23')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer23" class="answer hidden">Đáp án đúng: Điện thoại của bạn ở đâu?</p>
+                </div>
+            </div>
+
+            <!-- Question 24 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('我不要这个。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 24</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin24')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin24" class="pinyin hidden">Wǒ bù yào zhège.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q24" value="b"> Tôi muốn cái này.</label><br>
+                    <label><input type="radio" name="q24" value="c"> Cái này không đẹp.</label><br>
+                    <label><input type="radio" name="q24" value="a"> Tôi không muốn cái này.</label><br>
+                    <label><input type="radio" name="q24" value="d"> Cái này đắt quá.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer24')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer24" class="answer hidden">Đáp án đúng: Tôi không muốn cái này.</p>
+                </div>
+            </div>
+
+            <!-- Question 25 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('给我你的电话号码。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 25</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin25')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin25" class="pinyin hidden">Gěi wǒ nǐ de diànhuà hàomǎ.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q25" value="c"> Số điện thoại của bạn bao nhiêu?</label><br>
+                    <label><input type="radio" name="q25" value="a"> Đưa tôi số điện thoại của bạn.</label><br>
+                    <label><input type="radio" name="q25" value="d"> Tôi không cần số điện thoại.</label><br>
+                    <label><input type="radio" name="q25" value="b"> Đưa tôi điện thoại của bạn.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer25')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer25" class="answer hidden">Đáp án đúng: Đưa tôi số điện thoại của bạn.</p>
+                </div>
+            </div>
+
+            <!-- Question 26 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('这部手机是新的吗？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 26</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin26')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin26" class="pinyin hidden">Zhè bù shǒujī shì xīn de ma?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q26" value="d"> Tôi không thích điện thoại này.</label><br>
+                    <label><input type="radio" name="q26" value="b"> Chiếc điện thoại này là cũ à?</label><br>
+                    <label><input type="radio" name="q26" value="a"> Chiếc điện thoại này là mới à?</label><br>
+                    <label><input type="radio" name="q26" value="c"> Chiếc điện thoại này bao nhiêu tiền?</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer26')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer26" class="answer hidden">Đáp án đúng: Chiếc điện thoại này là mới à?</p>
+                </div>
+            </div>
+
+            <!-- Question 27 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('我在商店买手机。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 27</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin27')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin27" class="pinyin hidden">Wǒ zài shāngdiàn mǎi shǒujī.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q27" value="b"> Tôi bán điện thoại ở cửa hàng.</label><br>
+                    <label><input type="radio" name="q27" value="d"> Tôi không mua điện thoại ở cửa hàng.</label><br>
+                    <label><input type="radio" name="q27" value="a"> Tôi mua điện thoại ở cửa hàng.</label><br>
+                    <label><input type="radio" name="q27" value="c"> Tôi sửa điện thoại ở cửa hàng.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer27')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer27" class="answer hidden">Đáp án đúng: Tôi mua điện thoại ở cửa hàng.</p>
+                </div>
+            </div>
+
+            <!-- Question 28 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('你可以给我便宜一点儿吗？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 28</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin28')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin28" class="pinyin hidden">Nǐ kěyǐ gěi wǒ piányi yīdiǎnr ma?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q28" value="c"> Bạn có thể bán cho tôi không?</label><br>
+                    <label><input type="radio" name="q28" value="a"> Bạn có thể giảm giá chút không?</label><br>
+                    <label><input type="radio" name="q28" value="d"> Bạn có thể tặng tôi không?</label><br>
+                    <label><input type="radio" name="q28" value="b"> Bạn có thể tăng giá chút không?</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer28')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer28" class="answer hidden">Đáp án đúng: Bạn có thể giảm giá chút không?</p>
+                </div>
+            </div>
+
+            <!-- Question 29 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('这是我的手机。')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 29</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin29')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin29" class="pinyin hidden">Zhè shì wǒ de shǒujī.</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q29" value="b"> Đây là điện thoại của bạn.</label><br>
+                    <label><input type="radio" name="q29" value="d"> Tôi không muốn điện thoại này.</label><br>
+                    <label><input type="radio" name="q29" value="a"> Đây là điện thoại của tôi.</label><br>
+                    <label><input type="radio" name="q29" value="c"> Điện thoại này đắt quá.</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer29')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer29" class="answer hidden">Đáp án đúng: Đây là điện thoại của tôi.</p>
+                </div>
+            </div>
+
+            <!-- Question 30 -->
+            <div class="mb-6 border-b pb-4">
+                <div class="flex items-center mb-2">
+                    <button type="button" onclick="speak('你有手机吗？')" class="mr-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        🔊 Speaker
+                    </button>
+                    <span class="font-semibold">Question 30</span>
+                </div>
+                <div class="mb-2">
+                    <button type="button" onclick="togglePinyin('pinyin30')" class="text-blue-500 underline">Show Pinyin</button>
+                    <p id="pinyin30" class="pinyin hidden">Nǐ yǒu shǒujī ma?</p>
+                </div>
+                <div class="space-y-2">
+                    <label><input type="radio" name="q30" value="c"> Bạn sửa điện thoại không?</label><br>
+                    <label><input type="radio" name="q30" value="b"> Bạn bán điện thoại không?</label><br>
+                    <label><input type="radio" name="q30" value="a"> Bạn có điện thoại không?</label><br>
+                    <label><input type="radio" name="q30" value="d"> Bạn muốn mua điện thoại không?</label>
+                </div>
+                <div class="mt-2">
+                    <button type="button" onclick="toggleAnswer('answer30')" class="text-green-500 underline">Show Answer</button>
+                    <p id="answer30" class="answer hidden">Đáp án đúng: Bạn có điện thoại không?</p>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mt-6">
+                <button type="button" onclick="submitQuiz()" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">
+                    Submit
+                </button>
+            </div>
+        </form>
+        <div id="result" class="mt-4 text-center text-lg font-semibold"></div>
+    </div>
+
+    <script>
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "zh-CN"; // Set language to Chinese
+            speechSynthesis.speak(utterance);
+        }
+
+        function togglePinyin(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('hidden');
+        }
+
+        function toggleAnswer(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('hidden');
+        }
+
+        function submitQuiz() {
+            const correctAnswers = {
+                q1: 'a', q2: 'b', q3: 'a', q4: 'a', q5: 'b',
+                q6: 'a', q7: 'a', q8: 'a', q9: 'a', q10: 'a',
+                q11: 'a', q12: 'a', q13: 'a', q14: 'a', q15: 'a',
+                q16: 'a', q17: 'a', q18: 'a', q19: 'a', q20: 'a',
+                q21: 'a', q22: 'a', q23: 'a', q24: 'a', q25: 'a',
+                q26: 'a', q27: 'a', q28: 'a', q29: 'a', q30: 'a'
+            };
+            let score = 0;
+            const form = document.getElementById('quizForm');
+            for (let i = 1; i <= 30; i++) {
+                const selected = form.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+            document.getElementById('result').innerText = `Bạn trả lời đúng ${score}/30 câu hỏi!`;
+        }
+    </script>
+</body>
+</html>
